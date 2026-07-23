@@ -1,154 +1,196 @@
-# ASUS TUF GAMING B460M PLUS Hackintosh EFI
+# ASUS TUF GAMING B460M-PLUS (WI-FI) Hackintosh EFI
 
-EFI configuration for ASUS TUF GAMING B460M PLUS.
+适用于 ASUS TUF GAMING B460M-PLUS (WI-FI)、Intel Comet Lake 平台和 AMD RX 6600 XT 的 OpenCore EFI 配置。
 
 简体中文（当前）  
-[English](https://github.com/Stick-Study/ASUS-TUF-GAMING-B460M-PLUS-HACKINTOSH/blob/main/README.md)
+[English](README.md)
 
 ---
 
 ## ⚠️ 免责声明
 
 **您的保修已失效。**  
-在使用本项目前请务必充分了解相关内容。本人不对任何损失负责，包括但不限于：内核崩溃、设备无法启动、硬件故障、存储损坏、数据丢失、原子弹爆炸、第三次世界大战、CK级重构事件（SCP基金会）及其他不可预见的后果。
+在使用本项目前请务必充分了解相关内容。本人不对任何损失负责，包括但不限于：内核崩溃、设备无法启动、硬件故障、存储损坏、数据丢失及其他不可预见的后果。
 
 ---
 
-## 📖 用户手册
+## 🖥️ 目标硬件
 
-- [中文用户手册 (PDF)](https://dlsvr04.asus.com.cn/pub/ASUS/mb/LGA1200/TUF_GAMING_B460M-PLUS/C17227_TUF_GAMING_B460M-PLUS_UM_V3_WEB.pdf)
+| 规格 | 详情 |
+|:-----|:-----|
+| 主板 | ASUS TUF GAMING B460M-PLUS (WI-FI) |
+| BIOS 版本 | 不固定；请按下方 BIOS 设置调整 |
+| CPU | Intel Core i7-10700F |
+| 核显 | 无；F 系列 CPU |
+| 独显 | 蓝宝石 Radeon RX 6600 XT |
+| 内存 | DDR4 2600 MHz，32 GB |
+| NVMe SSD | 英睿达 Crucial P5 M.2 1 TB |
+| 有线网卡 | 板载 Intel I219-V，通过 IntelMausi.kext 驱动 |
+| 无线 / 蓝牙 | 板载 Intel AX200 |
+| 声卡 | 板载 Realtek S1200A / ALC1220 系列，AppleALC layout-id 1 |
+| SMBIOS | iMac20,1 |
+| OpenCore | 1.0.7 |
+| 目标 macOS | macOS Tahoe |
 
----
-
-## 🖥️ 硬件规格
-
-| 规格             | 详情                                   |
-|:-----------------|:---------------------------------------|
-| 主板             | ASUS TUF GAMING B460M PLUS             |
-| 处理器           | Intel Core i3-10100                    |
-| 内存             | DDR4 2666 MHz，8 GB                    |
-| NVMe 固态硬盘    | WD SN550 500 GB                        |
-| 核显             | Intel UHD Graphics 630                 |
-| 无线网卡         | BCM943602CS                            |
-| [BIOS 版本](https://www.asus.com.cn/motherboards-components/motherboards/tuf-gaming/tuf-gaming-b460m-plus/helpdesk_bios/?model2Name=TUF-GAMING-B460M-PLUS) | 1301 版 |
-
----
-
-## ✅ 兼容性
-
-### 不可用功能
-
-| 功能   | 状态 | 依赖项              | 备注 |
-|--------|:----:|:-------------------:|------|
-| Wi-Fi  | ❌   | IO80211FamilyLegacy | macOS Sonoma 需 [OCLP](https://github.com/dortania/OpenCore-Legacy-Patcher/pull/1077) |
-
-### 显示与音频
-
-| 功能                                 | 状态 | 依赖项             | 备注   |
-|--------------------------------------|:----:|:------------------:|--------|
-| 图形加速（QE/CI）                    | ✅   | WhateverGreen.kext |        |
-| 3.5mm 麦克风音频录制                 | ✅   | AppleALC.kext      |        |
-| 3.5mm 接口音频播放                   | ✅   | AppleALC.kext      |        |
-| 耳机自动输出切换                     | ✅   | AppleALC.kext      |        |
-
-### 电源、睡眠与休眠
-
-| 功能                        | 状态 | 依赖项      | 备注                                                                                   |
-|-----------------------------|:----:|:-----------:|----------------------------------------------------------------------------------------|
-| CPU 电源管理（SpeedShift）  | ✅   | SSDT-PLUG   | 使用 iMac20,1 SMBIOS                                                                   |
-| NVMe 硬盘电源管理           | ✅   |             |                                                                                        |
-| S3 睡眠                     | ✅   |             |                                                                                        |
-| 休眠模式 25                 | ✅   |             | 1. 终端运行 `sudo pmset hibernatemode 25`<br>2. 启用 Booter-DiscardHibernateMap<br>3. 设置 Misc-Boot-Hibernate Mode 为 Auto<br>4. 第三方 SSD 启用 Kernel-Quirks-ThirdPartyDrivers |
-
-### 输入与输出
-
-| 功能           | 状态 | 依赖项        | 备注                                   |
-|----------------|:----:|:-------------:|----------------------------------------|
-| USB 2.0、USB 3.0| ✅   | USBPorts.kext | 推荐**自定义** USB 定制                |
-
-### 显示
-
-| 功能   | 状态 | 依赖项 | 备注                                   |
-|--------|:----:|:------:|----------------------------------------|
-| HiDPI  | ✅   |        | 原生支持 UHD DP 外接显示器             |
+本 EFI 基于原 B460M-PLUS 配置修改，现在已适配 **i7-10700F 无核显 + RX 6600 XT 独显**。原来的 Intel UHD 630 设备属性注入已经移除。
 
 ---
 
-## 📚 参考资料
+## ✅ 当前支持状态
 
-- [dortania's OpenCore Install Guide](https://dortania.github.io/OpenCore-Install-Guide/)
-- [dortania's OpenCore Post Install Guide](https://dortania.github.io/OpenCore-Post-Install/)
-- [dortania Getting Started with ACPI](https://dortania.github.io/OpenCore-Post-Install/)
-- *Configuration.pdf* and *Differences.pdf* in each OpenCore release
-- [daliansky/OC-little](https://github.com/daliansky/OC-little)
-- [OpenCore 简体中文参考手册 (Unofficial)](https://oc.skk.moe)
+状态说明：
 
-**请认真阅读以上资源。**
+- ✅ 当前 EFI 已配置
+- 🟡 已配置，但需要真机验证或安装后处理
+- ❌ 当前 EFI 不包含 / 不推荐
+
+### 启动、显卡与显示
+
+| 功能 | 状态 | 依赖 / 设置 | 备注 |
+|------|:----:|:------------|------|
+| macOS Tahoe 安装器启动 | 🟡 | OpenCore 1.0.7、当前 Acidanthera kext | 已按 Tahoe 首启方向配置，需在目标机器实测 |
+| RX 6600 XT 图形加速 | ✅ | WhateverGreen.kext、`agdpmod=pikera` | 只使用 RX 6600 XT 输出显示 |
+| Intel UHD Graphics | ❌ | — | i7-10700F 没有核显，未配置 framebuffer 注入 |
+| HiDPI / 外接显示 | 🟡 | RX 6600 XT | 取决于显示器和接口；首启排错建议优先用 DisplayPort |
+
+### 网络与蓝牙
+
+| 功能 | 状态 | 依赖 / 设置 | 备注 |
+|------|:----:|:------------|------|
+| 有线网卡 | ✅ | IntelMausi.kext | 安装和首启建议优先使用有线网络 |
+| Intel AX200 Wi-Fi | 🟡 | itlwm.kext + HeliPort | 不是原生 AirportItlwm 方案；进系统后安装 HeliPort 使用 |
+| Intel AX200 蓝牙 | 🟡 | IntelBluetoothFirmware.kext、IntelBTPatcher.kext、BlueToolFixup.kext | 稳定性取决于后续 USB 定制是否包含蓝牙内建 USB 端口 |
+| Broadcom / OCLP 无线路线 | ❌ | — | `config_broadcom.plist` 不是本机 Intel AX200 的目标配置 |
+
+### 声卡、硬盘、USB 与电源
+
+| 功能 | 状态 | 依赖 / 设置 | 备注 |
+|------|:----:|:------------|------|
+| 板载声卡 | 🟡 | AppleALC.kext、layout-id 1 | 启动后测试前后音频输出和麦克风 |
+| 英睿达 P5 NVMe | ✅ | NVMeFix.kext | 不属于原 README 提到的不兼容 SSD 型号 |
+| USB 安装器首启 | 🟡 | USBInjectAll.kext、XHCI-unsupported.kext、`XhciPortLimit=true` | 仅作为临时首启方案 |
+| 最终 USB 定制 | ❌ | USBToolBox + UTBMap.kext | 需要在这块主板上重新扫端口，必须包含 AX200 蓝牙内建 USB 端口 |
+| 睡眠 / 唤醒 | 🟡 | ACPI + 最终 USB 定制 | USB 定制完成前不建议判断睡眠稳定性 |
+| 休眠模式 25 | ❌ | — | 首启和调试阶段不推荐启用 |
 
 ---
 
-## 🛠️ 准备工作
+## 📁 配置说明
 
-### 基础
+- 当前目标配置文件是 [EFI/OC/config.plist](EFI/OC/config.plist)。
+- [EFI/OC/config_broadcom.plist](EFI/OC/config_broadcom.plist) 仅保留为非目标/旧配置，不适用于当前 Intel AX200 方案。
+- 当前启动参数：
 
-- U 盘（4GB 及以上）
-- [OCAuxiliaryTools](https://github.com/ic005k/OCAuxiliaryTools) 编辑 plist 文件（Windows/macOS）
-- [ProperTree](https://github.com/corpnewt/ProperTree) 编辑 plist 文件（Windows/macOS）
-- [MaciASL](https://github.com/acidanthera/MaciASL) 用于 ACPI 补丁
-- [HackinTool](https://github.com/headkaze/Hackintool) 仅用于诊断（内置补丁已过时）
-- 耐心和时间，尤其是首次黑苹果安装
-
-### 硬件修改
-
-#### 固态硬盘
-
-三星 PM981/PM981a/PM991 及美光 2200S **不支持**。请使用兼容的 SSD。
-
-#### 无线网卡
-
-推荐使用 Broadcom 网卡以获得最佳性能和原生苹果生态体验。  
-> 在 macOS Sonoma 中，Apple 移除了 IO80211FamilyLegacy。Broadcom 网卡需 [OpenCore Legacy Patcher](https://github.com/dortania/OpenCore-Legacy-Patcher/pull/1077) 才能正常使用。
-
-### BIOS 设置
-
-- Advanced > System Agent (SA) Configuration > VT-D: **Disabled**
-- Advanced > System Agent (SA) Configuration > Above 4G Decoding: **Enabled**
-- Advanced > USB Configuration > XHCI Hand-off: **Enabled**
-- Boot > CSM (Compatibility Support Module) > Launch CSM: **Disabled**
-- Boot > Secure Boot > OS Type: **Other OS**
-- Boot > Boot\Boot Configuration > Wait For 'F1' If Error: **Disabled**
-
-### 修复 Windows 8 小时时差
-
-在 Windows 中运行以下命令：
-
-```
-Reg add HKLM\SYSTEM\CurrentControlSet\Control\TimeZoneInformation /v RealTimeIsUniversal /t REG_DWORD /d 1
+```text
+-v debug=0x100 agdpmod=pikera
 ```
 
----
-
-## 🤝 贡献
-
-如果本项目对你有帮助，请考虑支持：
-
-- 点个 Star！
-- [请我喝咖啡](https://ko-fi.com/fuyuxuan) 😝  
-  或通过 [微信](https://github.com/Fu-Yuxuan-hub/Generic-EFI-for-H610-B660-Z690-B760-Z790/blob/main/Donation/WeChat.JPG) 或 [支付宝](https://github.com/Fu-Yuxuan-hub/Generic-EFI-for-H610-B660-Z690-B760-Z790/blob/main/Donation/Alipay.JPG)
-- 有问题或建议请提交 Issue  
-  > 请使用提供的 Issue 模板
+- 当前启用的 ACPI：
+  - `SSDT-EC-USBX.aml`
+  - `SSDT-PLUG.aml`
+  - `SSDT-AWAC.aml`
+  - `SSDT-PMCR.aml`
+  - `SSDT-RHUB.aml`
+- `SSDT-DMAR.aml` 存在，但当前未启用。
+- `USBPorts.kext` 存在，但当前禁用，因为它不是 B460M-PLUS (WI-FI) 的最终 USB 定制。
+- 当前 EFI 使用的是临时生成的 SMBIOS。登录 Apple ID / iCloud 前，请重新生成 iMac20,1 三码，并把 `ROM` 设置为你自己的有线网卡 MAC 地址。
 
 ---
 
-## 🙏 鸣谢
+## 🛠️ 准备工具
 
-- [acidanthera](https://github.com/acidanthera) 提供 OpenCore
-- Apple 提供 macOS
+- 用于制作 macOS 安装器的 U 盘
+- [OCAuxiliaryTools](https://github.com/ic005k/OCAuxiliaryTools) 或 [ProperTree](https://github.com/corpnewt/ProperTree)，用于编辑 plist
+- [GenSMBIOS](https://github.com/corpnewt/GenSMBIOS) 或其他可信工具，用于生成三码
+- [USBToolBox](https://github.com/USBToolBox/tool)，用于最终 USB 定制
+- [HeliPort](https://github.com/OpenIntelWireless/HeliPort)，用于配合 `itlwm.kext` 管理 Wi-Fi
+- [MaciASL](https://github.com/acidanthera/MaciASL)，仅在需要修改 ACPI 时使用
+- [HackinTool](https://github.com/headkaze/Hackintool) 仅用于诊断，不建议使用其过时的内置补丁
 
 ---
 
-## 🚫 注意
+## BIOS 设置
 
-本仓库仅用于分享和协助黑苹果安装。**禁止商业用途。**
+首次启动前请设置：
 
-© 杆杆只爱学习, 以 MIT 许可证发布。
+- Advanced > System Agent (SA) Configuration > VT-D：**Disabled**
+- Advanced > System Agent (SA) Configuration > Above 4G Decoding：**Enabled**
+- Advanced > USB Configuration > XHCI Hand-off：**Enabled**
+- Boot > CSM (Compatibility Support Module) > Launch CSM：**Disabled**
+- Boot > Secure Boot > OS Type：**Other OS**
+- Boot > Boot Configuration > Wait For 'F1' If Error：**Disabled**
+- Primary Display / Initial Display Output：**PEG / PCIe**
+- Resizable BAR：**Disabled**，如果 BIOS 里有该选项
+- SATA Mode：**AHCI**
+- Fast Boot：**Disabled**
+- CFG Lock：**Disabled**，如果 BIOS 里有该选项
+
+显示器请连接到 RX 6600 XT。首启排查黑屏时，建议优先使用 DisplayPort。
+
+---
+
+## 安装说明
+
+1. 制作 macOS Tahoe 安装 U 盘。
+2. 挂载 U 盘 EFI 分区。
+3. 把本仓库的 [EFI/](EFI/) 文件夹复制到 U 盘 EFI 分区根目录。
+4. 从 U 盘启动；修改 SMBIOS/NVRAM 后，在 OpenCore 菜单执行一次 **Reset NVRAM**。
+5. 使用 verbose 模式启动安装器。
+6. 安装阶段优先使用有线网络。
+7. 如果 Wi-Fi 使用 `itlwm.kext`，进入系统后安装 HeliPort。
+8. 安装后用 USBToolBox 生成最终 USB 定制，替换当前临时 USB 方案。
+
+正确的 EFI 分区结构：
+
+```text
+EFI 分区/
+└── EFI/
+    ├── BOOT/
+    │   └── BOOTx64.efi
+    └── OC/
+        ├── OpenCore.efi
+        ├── config.plist
+        ├── ACPI/
+        ├── Drivers/
+        ├── Kexts/
+        └── Tools/
+```
+
+---
+
+## 验证
+
+修改 OpenCore 配置后，先检查 plist 语法：
+
+```bash
+python - <<'PY'
+import plistlib
+for path in ["EFI/OC/config.plist"]:
+    plistlib.load(open(path, "rb"))
+    print(f"OK {path}")
+PY
+```
+
+如果有当前 OpenCore 版本配套的 `ocvalidate`：
+
+```bash
+ocvalidate EFI/OC/config.plist
+```
+
+---
+
+## 参考资料
+
+- [Dortania OpenCore Install Guide](https://dortania.github.io/OpenCore-Install-Guide/)
+- [Dortania OpenCore Post Install Guide](https://dortania.github.io/OpenCore-Post-Install/)
+- [OpenIntelWireless itlwm / AirportItlwm](https://github.com/OpenIntelWireless/itlwm)
+- [OpenIntelWireless IntelBluetoothFirmware](https://github.com/OpenIntelWireless/IntelBluetoothFirmware)
+- [USBToolBox](https://github.com/USBToolBox/tool)
+
+---
+
+## 注意
+
+本仓库仅用于分享和协助黑苹果安装。禁止商业用途。
+
+以 MIT 许可证发布。
