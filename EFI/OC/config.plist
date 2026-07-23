@@ -1103,12 +1103,12 @@
 			<key>MaxBIOSVersion</key>
 			<false/>
 			<key>MLB</key>
-			<string>C02153104CDPHC1JA</string>
+			<string>C02008104GUPHC1UE</string>
 			<key>ProcessorType</key>
 			<integer>0</integer>
 			<key>ROM</key>
 			<data>
-			agsZZ6QY
+			XPfmVSFf
 			</data>
 			<key>SpoofVendor</key>
 			<true/>
@@ -1117,9 +1117,9 @@
 			<key>SystemProductName</key>
 			<string>iMac20,1</string>
 			<key>SystemSerialNumber</key>
-			<string>C02GXGYKPN5T</string>
+			<string>C02C9DZMPN5T</string>
 			<key>SystemUUID</key>
-			<string>94D3913D-DFFA-4A6F-BA00-E73617FE5404</string>
+			<string>AAB8BE14-29DA-4D1B-9E91-2A86FF59C44C</string>
 		</dict>
 		<key>UpdateDataHub</key>
 		<true/>
