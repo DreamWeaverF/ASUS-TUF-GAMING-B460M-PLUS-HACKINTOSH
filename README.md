@@ -77,6 +77,7 @@ Status meanings:
 
 ## 📁 Configuration Notes
 
+- Current troubleshooting status, confirmed boot behavior, and next USBToolBox mapping steps are recorded in [CURRENT_STATUS_CN.md](CURRENT_STATUS_CN.md).
 - Use [EFI/OC/config.plist](EFI/OC/config.plist) as the active configuration.
 - [EFI/OC/config_broadcom.plist](EFI/OC/config_broadcom.plist) is kept only as a non-target/legacy variant and should not be used for the Intel AX200 setup.
 - Current boot args:

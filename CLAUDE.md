@@ -6,13 +6,16 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This repository is an OpenCore EFI configuration for an ASUS TUF GAMING B460M PLUS Hackintosh. It is not an application codebase: most maintained assets are OpenCore plist configuration, ACPI tables, EFI drivers/tools, kext bundles, and hardware documentation.
 
-Target hardware from the README:
-- Motherboard: ASUS TUF GAMING B460M PLUS, BIOS 1301
-- CPU: Intel Core i3-10100 with Intel UHD Graphics 630
-- Memory: DDR4 2666 MHz, 8 GB
-- NVMe SSD: WD SN550 500 GB
-- Wireless: BCM943602CS
-- SMBIOS used by the configs: iMac20,1
+Current target hardware from the README and CURRENT_STATUS_CN.md:
+- Motherboard: ASUS TUF GAMING B460M-PLUS / B460M-PLUS (WI-FI) family
+- CPU: Intel Core i7-10700F, no iGPU
+- GPU: Sapphire Radeon RX 6600 XT
+- Memory: DDR4 2600 MHz, 32 GB
+- NVMe SSD: Crucial P5 M.2 1 TB
+- Ethernet: Intel I219-V; ROM currently set from MAC 3C-7C-3F-2F-89-D0
+- Wi-Fi: Intel AX200 route prepared with itlwm; Bluetooth is currently described by the user as an external USB dongle
+- SMBIOS: iMac20,1
+- See CURRENT_STATUS_CN.md for the latest boot troubleshooting handoff; the active blocker is USB input not working in the Recovery GUI.
 
 ## Commands
 
@@ -50,7 +53,7 @@ For plist editing, the README recommends OCAuxiliaryTools or ProperTree. For ACP
 - `EFI/OC/config.plist` is the main OpenCore configuration.
 - `EFI/OC/config_broadcom.plist` is a Broadcom/Sonoma-oriented variant. It enables IO80211FamilyLegacy/AirPortBrcmNIC-related entries and blocks `com.apple.iokit.IOSkywalkFamily`; the referenced `IOSkywalkFamily.kext` and `IO80211FamilyLegacy.kext` bundles are not present in `EFI/OC/Kexts/` in the current tree, so verify the deployment package before treating this variant as boot-ready.
 - `EFI/OC/ACPI/` contains precompiled `.aml` SSDTs. The enabled set in both configs is `SSDT-EC-USBX`, `SSDT-PLUG`, `SSDT-AWAC`, `SSDT-PMCR`, and `SSDT-RHUB`; `SSDT-DMAR.aml` exists but is not currently enabled.
-- `EFI/OC/Kexts/` contains bundled kernel extensions. The main config enables Lilu, IntelMausi, VirtualSMC, WhateverGreen, AppleALC, RestrictEvents, SMCProcessor, SMCSuperIO, USBInjectAll, and XHCI-unsupported; `USBPorts.kext` is present but disabled.
+- `EFI/OC/Kexts/` contains bundled kernel extensions. The main config enables Lilu, VirtualSMC, WhateverGreen, AppleALC, RestrictEvents, NVMeFix, IntelMausi, SMCProcessor, SMCSuperIO, itlwm, Intel Bluetooth kexts, BlueToolFixup, and currently `USBPorts.kext` as a temporary USB test; `USBInjectAll.kext` and `XHCI-unsupported.kext` are currently disabled.
 - `EFI/OC/Drivers/` contains UEFI drivers. The configs enable HfsPlus, OpenRuntime, ResetNvramEntry, and ToggleSipEntry; OpenCanopy exists but is not enabled in the current configs.
 - `EFI/OC/Tools/` contains OpenCore tools. Many are enabled as auxiliary picker tools in the plist; keep plist `Misc -> Tools` entries in sync when adding/removing tool binaries.
 - `Audio/` stores Realtek/AppleALC support material: codec dumps, ACPI tables, `verbit.sh`, and a short node mapping in `Audio/README.md`.

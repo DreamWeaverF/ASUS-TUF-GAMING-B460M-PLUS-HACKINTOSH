@@ -77,6 +77,7 @@
 
 ## 📁 配置说明
 
+- 当前排查状态、已确认现象和下一步 USBToolBox 映射计划记录在 [CURRENT_STATUS_CN.md](CURRENT_STATUS_CN.md)。
 - 当前目标配置文件是 [EFI/OC/config.plist](EFI/OC/config.plist)。
 - [EFI/OC/config_broadcom.plist](EFI/OC/config_broadcom.plist) 仅保留为非目标/旧配置，不适用于当前 Intel AX200 方案。
 - 当前启动参数：
