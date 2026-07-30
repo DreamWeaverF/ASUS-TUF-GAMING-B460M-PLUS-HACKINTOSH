@@ -397,9 +397,9 @@
 				<key>BundlePath</key>
 				<string>USBInjectAll.kext</string>
 				<key>Comment</key>
-				<string>Temporary USB injector for installer only</string>
+				<string>Disabled while testing USBPorts.kext</string>
 				<key>Enabled</key>
-				<true/>
+				<false/>
 				<key>ExecutablePath</key>
 				<string>Contents/MacOS/USBInjectAll</string>
 				<key>MaxKernel</key>
@@ -415,9 +415,9 @@
 				<key>BundlePath</key>
 				<string>USBPorts.kext</string>
 				<key>Comment</key>
-				<string>Old USB map from original board; disabled</string>
+				<string>USB map test for installer</string>
 				<key>Enabled</key>
-				<false/>
+				<true/>
 				<key>ExecutablePath</key>
 				<string></string>
 				<key>MaxKernel</key>
@@ -433,9 +433,9 @@
 				<key>BundlePath</key>
 				<string>XHCI-unsupported.kext</string>
 				<key>Comment</key>
-				<string>Temporary XHCI injector</string>
+				<string>Disabled while testing USBPorts.kext</string>
 				<key>Enabled</key>
-				<true/>
+				<false/>
 				<key>ExecutablePath</key>
 				<string></string>
 				<key>MaxKernel</key>
@@ -531,7 +531,7 @@
 			<key>ThirdPartyDrives</key>
 			<false/>
 			<key>XhciPortLimit</key>
-			<true/>
+			<false/>
 		</dict>
 		<key>Scheme</key>
 		<dict>
@@ -1108,7 +1108,7 @@
 			<integer>0</integer>
 			<key>ROM</key>
 			<data>
-			XPfmVSFf
+			PHw/L4nQ
 			</data>
 			<key>SpoofVendor</key>
 			<true/>
